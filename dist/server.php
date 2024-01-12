@@ -1,2 +1,2 @@
 <?php 
-each var_dump($_POST);
+echo var_dump($_POST);
