@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //modal form
     const forms = document.querySelectorAll("form");
     const message = {
-        loading: "Завантаження",
+        loading: "img/form/spinner.svg",
         succes: "Дякую!Найближчим часом ми зателефонуємо вам",
         fail: "Щось не так ...",
     };
@@ -250,10 +250,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });*/
 
             /* відправка у форматі json */
-            const statusMessage = document.createElement("div");
-            statusMessage.classList.add("status");
-            statusMessage.textContent = message.loading;
-            form.append(statusMessage);
+            const statusMessage = document.createElement("img");
+            statusMessage.src = message.loading;
+            statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `
+            form.insertAdjacentElement('afterend', statusMessage);
             const request = new XMLHttpRequest();
             request.open("POST", "server.php");
             request.setRequestHeader("Content-type", "application/json");
