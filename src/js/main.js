@@ -1,3 +1,5 @@
+const { data } = require("autoprefixer");
+
 document.addEventListener("DOMContentLoaded", () => {
     //виконає увесь код коли dom дерево буде завантажено
     const tabs = document.querySelectorAll(".tabheader__item"); //массив табів
@@ -255,11 +257,9 @@ document.addEventListener("DOMContentLoaded", () => {
             statusMessage.style.cssText = `
                 display: block;
                 margin: 0 auto;
-            `
-            form.insertAdjacentElement('afterend', statusMessage);
-            const request = new XMLHttpRequest();
-            request.open("POST", "server.php");
-            request.setRequestHeader("Content-type", "application/json");
+            `;
+            form.insertAdjacentElement("afterend", statusMessage);
+
             const formData = new FormData(form);
 
             const object = {};
@@ -267,21 +267,26 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.forEach(function (value, key) {
                 object[key] = value;
             });
-            const json = JSON.stringify(object);
+    
 
-            request.send(json);
-            request.addEventListener("load", () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.succes);
-                    form.reset();
-                    setTimeout(() => {
-                        statusMessage.remove();
-                    }, 2000);
-                } else {
-                    showThanksModal(message.fail); 
-                }
-            });
+            fetch('server.php',{
+                method : "POST",
+                headers : {
+                    "Content-type" : "application/json"
+                },
+                body: JSON.stringify(object)
+            })
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.succes);
+                statusMessage.remove();
+            })
+            .catch(()=> {
+                showThanksModal(message.fail); 
+            })
+            .finally(()=> {
+                form.reset();
+            })
         });
     }
     function showThanksModal(message) {
