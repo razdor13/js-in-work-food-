@@ -17757,8 +17757,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return await res.json();
   }
-  getResource('http://localhost:3000/menu').then(data => {
-    data.forEach(({
+  axios.get('http://localhost:3000/menu').then(data => {
+    data.data.DateforEach(({
       img,
       altimg,
       title,
@@ -17803,10 +17803,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
       form.insertAdjacentElement("afterend", statusMessage);
       const formData = new FormData(form);
-      const object = {};
-      formData.forEach(function (value, key) {
-        object[key] = value;
-      });
       const json = JSON.stringify(Object.fromEntries(formData.entries()));
       postData('http://localhost:3000/requests', json).then(data => {
         console.log(data);
@@ -17841,7 +17837,6 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }, 4000);
   }
-  fetch('http://localhost:3000/menu').then(data => data.json()).then(res => console.log(res));
 });
 })();
 

@@ -221,9 +221,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return await res.json();
     }
 
-    getResource('http://localhost:3000/menu')
+    axios.get('http://localhost:3000/menu')
         .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.data.DateforEach(({img, altimg, title, descr, price}) => {
                 new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
             });
         });
@@ -268,11 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const formData = new FormData(form);
 
-            const object = {};
-
-            formData.forEach(function (value, key) {
-                object[key] = value;
-            });
+            
     
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
@@ -313,7 +309,5 @@ document.addEventListener("DOMContentLoaded", () => {
             closeModal();
         }, 4000);
     }
-    fetch('http://localhost:3000/menu')
-    .then(data => data.json())
-    .then(res => console.log(res))
+    
 });
